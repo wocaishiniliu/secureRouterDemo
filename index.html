@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>SecureRouter | MPC-Based Transformer Inference</title>
-  <meta name="description" content="SecureRouter: Input-Adaptive Encrypted Routing for Efficient and Accurate MPC-Based Transformer Inference. Accepted at DAC 2026." />
+  <title>SecureRoute | MPC-Based Transformer Inference</title>
+  <meta name="description" content="SecureRoute: Input-Adaptive Encrypted Routing for Efficient and Accurate MPC-Based Transformer Inference. Accepted at DAC 2026." />
 
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -26,7 +26,7 @@
 <nav class="navbar" role="navigation" aria-label="main navigation" id="navbar">
   <div class="navbar-brand">
     <a class="navbar-item brand-name" href="#">
-      <span class="lock-icon">🔒</span>SecureRouter
+      <span class="lock-icon">🔒</span>SecureRoute
     </a>
     <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navMenu">
       <span aria-hidden="true"></span>
@@ -58,7 +58,7 @@
     </div>
 
     <h1 class="paper-title">
-      <span class="title-accent">SecureRouter</span><br />
+      <span class="title-accent">SecureRoute</span><br />
       Input-Adaptive Encrypted Routing for<br />
       Efficient and Accurate MPC-Based<br />
       Transformer Inference
@@ -121,26 +121,14 @@
     <div class="section-underline"></div>
     <div class="abstract-card">
       <p class="abstract-text">
-        Cryptographically secure neural network inference typically relies on secure computing techniques such as
-        <strong>Secure Multi-Party Computation (MPC)</strong>, enabling cloud servers to process client inputs without
-        decrypting them. Although prior privacy-preserving inference systems co-design network optimizations with MPC,
-        they remain slow and costly, limiting real-world deployment. A major bottleneck is their use of a single,
-        fixed transformer model for all encrypted inputs, ignoring that different inputs require different model sizes
-        to balance efficiency and accuracy.
+        Existing privacy-preserving inference frameworks such as MPCFormer and SecFormer execute a single, fixed transformer model under
+        <strong>Secure Multi-Party Computation (MPC)</strong> for all inputs, making them inherently slow and computationally expensive, which restricts their real-world adoption.
       </p>
       <p class="abstract-text">
-        We present <strong>SecureRouter</strong>, an end-to-end encrypted routing and inference framework that
-        accelerates secure transformer inference through <em>input-adaptive model selection under encryption</em>.
-        SecureRouter establishes a unified encrypted pipeline that integrates a secure router with an MPC-optimized
-        model pool, enabling coordinated routing, inference, and protocol execution while preserving full data and
-        model confidentiality. The framework includes training-phase and inference-phase components: an
-        MPC-cost-aware secure router that predicts per-model utility and cost from encrypted features, and an
-        MPC-optimized model pool whose architectures and quantization schemes are co-trained to minimize MPC
-        communication and computation overhead.
+        We present <strong>SecureRoute</strong>, an end-to-end encrypted routing and inference framework that accelerates secure transformer inference through input-adaptive model selection under encryption. At the framework level, SecureRoute establishes a unified encrypted execution pipeline that tightly integrates a secure router with a model pool, enabling seamless coordination between routing, inference, and MPC protocol execution while preserving complete data and model confidentiality. At the algorithmic level, SecureRoute introduces an MPC-cost-aware secure router that predicts per-model inference cost and utility from encrypted input statistics, and an MPC-optimized model pool whose architectures and quantization schemes are co-trained to minimize MPC communication and computation overhead for router decisions.
       </p>
       <p class="abstract-text">
-        Compared to prior work, SecureRouter achieves a <strong>latency reduction by 1.95×</strong> with negligible
-        accuracy loss, offering a practical path toward scalable and efficient secure AI inference.
+        Built atop state-of-the-art SMPC protocols, SecureRoute achieves a <strong>latency reduction by 1.95×</strong> with negligible accuracy loss, offering a practical path toward scalable and efficient secure AI inference.
       </p>
     </div>
   </div>
@@ -159,7 +147,7 @@
         </div>
         <h3 class="card-title">Encrypted Input-Adaptive Routing</h3>
         <p class="card-text">
-          SecureRouter selects the optimal transformer model per-input under encryption, breaking free from
+          SecureRoute selects the optimal transformer model per-input under encryption, breaking free from
           the one-size-fits-all paradigm of prior MPC inference systems.
         </p>
       </div>
@@ -232,7 +220,7 @@
       <div class="demo-icon-wrap">
         <i class="fas fa-flask"></i>
       </div>
-      <h3 class="demo-title">Try SecureRouter</h3>
+      <h3 class="demo-title">Try SecureRoute</h3>
       <p class="demo-text">
         An interactive demo showcasing encrypted routing and inference will be available soon.
         Stay tuned for a Colab notebook and a live web interface.
@@ -279,7 +267,7 @@
     <h2 class="section-title">Citation</h2>
     <div class="section-underline"></div>
     <p class="citation-intro">
-      If you find SecureRouter useful in your research, please cite our paper:
+      If you find SecureRoute useful in your research, please cite our paper:
     </p>
 
     <div class="bibtex-block">
@@ -289,8 +277,8 @@
           <i class="fas fa-copy"></i> Copy
         </button>
       </div>
-      <pre class="bibtex-code" id="bibtex-code">@inproceedings{zhang2026securerouter,
-  title     = {SecureRouter: Input-Adaptive Encrypted Routing for Efficient
+      <pre class="bibtex-code" id="bibtex-code">@inproceedings{zhang2026secureroute,
+  title     = {SecureRoute: Input-Adaptive Encrypted Routing for Efficient
                and Accurate MPC-Based Transformer Inference},
   author    = {Zhang, Yukuan and Zheng, Mengxin and Lou, Qian},
   booktitle = {Proceedings of the 63rd ACM/IEEE Design Automation Conference (DAC)},

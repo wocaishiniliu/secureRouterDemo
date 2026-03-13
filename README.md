@@ -1,6 +1,6 @@
 # secureRouterDemo
 
-> **SecureRouter: Input-Adaptive Encrypted Routing for Efficient and Accurate MPC-Based Transformer Inference**  
+> **SecureRoute: Input-Adaptive Encrypted Routing for Efficient and Accurate MPC-Based Transformer Inference**  
 > Yukuan Zhang, Mengxin Zheng, Qian Lou — University of Central Florida  
 > *Accepted at DAC 2026*
 
@@ -10,7 +10,7 @@
 
 ## About
 
-SecureRouter is an end-to-end encrypted routing and inference framework that accelerates secure transformer inference through input-adaptive model selection under encryption. It achieves a **1.95× latency reduction** over prior work with negligible accuracy loss.
+SecureRoute is an end-to-end encrypted routing and inference framework that accelerates secure transformer inference through input-adaptive model selection under encryption. It achieves a **1.95× latency reduction** over prior work with negligible accuracy loss.
 
 ---
 
