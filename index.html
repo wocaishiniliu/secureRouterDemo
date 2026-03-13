@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SecureRouter | MPC-Based Transformer Inference</title>
+  <meta name="description" content="SecureRouter: Input-Adaptive Encrypted Routing for Efficient and Accurate MPC-Based Transformer Inference. Accepted at DAC 2026." />
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet" />
+
+  <!-- Bulma CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css" />
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="static/css/index.css" />
+</head>
+<body>
+
+<!-- ======== NAVBAR ======== -->
+<nav class="navbar" role="navigation" aria-label="main navigation" id="navbar">
+  <div class="navbar-brand">
+    <a class="navbar-item brand-name" href="#">
+      <span class="lock-icon">🔒</span>SecureRouter
+    </a>
+    <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navMenu">
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+    </a>
+  </div>
+  <div id="navMenu" class="navbar-menu">
+    <div class="navbar-end">
+      <a class="navbar-item" href="#abstract">Abstract</a>
+      <a class="navbar-item" href="#contributions">Contributions</a>
+      <a class="navbar-item" href="#demo">Demo</a>
+      <a class="navbar-item" href="#docs">Docs</a>
+      <a class="navbar-item" href="#citation">Citation</a>
+    </div>
+  </div>
+</nav>
+
+<!-- ======== HERO ======== -->
+<section class="hero-section" id="hero">
+  <div class="hero-bg-grid"></div>
+  <div class="hero-bg-glow glow-1"></div>
+  <div class="hero-bg-glow glow-2"></div>
+
+  <div class="container hero-content">
+    <div class="venue-badge">
+      <span class="badge-dot"></span>
+      DAC 2026 &nbsp;·&nbsp; Design Automation Conference
+    </div>
+
+    <h1 class="paper-title">
+      <span class="title-accent">SecureRouter</span><br />
+      Input-Adaptive Encrypted Routing for<br />
+      Efficient and Accurate MPC-Based<br />
+      Transformer Inference
+    </h1>
+
+    <!-- Authors -->
+    <div class="authors-row">
+      <a href="#" class="author-link">Yukuan Zhang</a>
+      <span class="author-sep">·</span>
+      <a href="#" class="author-link">Mengxin Zheng</a>
+      <span class="author-sep">·</span>
+      <a href="#" class="author-link">Qian Lou</a>
+    </div>
+    <div class="affiliation">University of Central Florida</div>
+
+    <!-- Action buttons -->
+    <div class="hero-buttons" id="paper-links">
+      <a href="#" class="hero-btn btn-paper" title="Paper PDF (coming soon)" id="btn-paper">
+        <i class="fas fa-file-pdf"></i>
+        <span>Paper</span>
+      </a>
+      <a href="https://github.com/wocaishiniliu/secureRouterDemo" target="_blank" class="hero-btn btn-github" id="btn-github">
+        <i class="fab fa-github"></i>
+        <span>GitHub</span>
+      </a>
+      <a href="#demo" class="hero-btn btn-demo" id="btn-demo">
+        <i class="fas fa-play-circle"></i>
+        <span>Demo</span>
+      </a>
+      <a href="#docs" class="hero-btn btn-docs" id="btn-docs">
+        <i class="fas fa-book-open"></i>
+        <span>Docs</span>
+      </a>
+    </div>
+
+    <!-- Stats bar -->
+    <div class="stats-bar">
+      <div class="stat-item">
+        <span class="stat-number">1.95×</span>
+        <span class="stat-label">Latency Reduction</span>
+      </div>
+      <div class="stat-divider"></div>
+      <div class="stat-item">
+        <span class="stat-number">~0%</span>
+        <span class="stat-label">Accuracy Loss</span>
+      </div>
+      <div class="stat-divider"></div>
+      <div class="stat-item">
+        <span class="stat-number">End-to-End</span>
+        <span class="stat-label">Encrypted Pipeline</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ======== ABSTRACT ======== -->
+<section class="content-section" id="abstract">
+  <div class="container narrow">
+    <h2 class="section-title">Abstract</h2>
+    <div class="section-underline"></div>
+    <div class="abstract-card">
+      <p class="abstract-text">
+        Cryptographically secure neural network inference typically relies on secure computing techniques such as
+        <strong>Secure Multi-Party Computation (MPC)</strong>, enabling cloud servers to process client inputs without
+        decrypting them. Although prior privacy-preserving inference systems co-design network optimizations with MPC,
+        they remain slow and costly, limiting real-world deployment. A major bottleneck is their use of a single,
+        fixed transformer model for all encrypted inputs, ignoring that different inputs require different model sizes
+        to balance efficiency and accuracy.
+      </p>
+      <p class="abstract-text">
+        We present <strong>SecureRouter</strong>, an end-to-end encrypted routing and inference framework that
+        accelerates secure transformer inference through <em>input-adaptive model selection under encryption</em>.
+        SecureRouter establishes a unified encrypted pipeline that integrates a secure router with an MPC-optimized
+        model pool, enabling coordinated routing, inference, and protocol execution while preserving full data and
+        model confidentiality. The framework includes training-phase and inference-phase components: an
+        MPC-cost-aware secure router that predicts per-model utility and cost from encrypted features, and an
+        MPC-optimized model pool whose architectures and quantization schemes are co-trained to minimize MPC
+        communication and computation overhead.
+      </p>
+      <p class="abstract-text">
+        Compared to prior work, SecureRouter achieves a <strong>latency reduction by 1.95×</strong> with negligible
+        accuracy loss, offering a practical path toward scalable and efficient secure AI inference.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ======== KEY CONTRIBUTIONS ======== -->
+<section class="content-section alt-bg" id="contributions">
+  <div class="container">
+    <h2 class="section-title">Key Contributions</h2>
+    <div class="section-underline"></div>
+    <div class="contributions-grid">
+
+      <div class="contribution-card">
+        <div class="card-icon">
+          <i class="fas fa-route"></i>
+        </div>
+        <h3 class="card-title">Encrypted Input-Adaptive Routing</h3>
+        <p class="card-text">
+          SecureRouter selects the optimal transformer model per-input under encryption, breaking free from
+          the one-size-fits-all paradigm of prior MPC inference systems.
+        </p>
+      </div>
+
+      <div class="contribution-card">
+        <div class="card-icon">
+          <i class="fas fa-shield-halved"></i>
+        </div>
+        <h3 class="card-title">End-to-End Confidentiality</h3>
+        <p class="card-text">
+          A unified encrypted pipeline integrates the secure router with an MPC-optimized model pool,
+          preserving full data and model confidentiality throughout routing and inference.
+        </p>
+      </div>
+
+      <div class="contribution-card">
+        <div class="card-icon">
+          <i class="fas fa-brain"></i>
+        </div>
+        <h3 class="card-title">MPC-Cost-Aware Training</h3>
+        <p class="card-text">
+          The router and model pool are co-trained with MPC cost awareness, jointly optimizing for
+          communication overhead, computation cost, and inference accuracy.
+        </p>
+      </div>
+
+      <div class="contribution-card">
+        <div class="card-icon">
+          <i class="fas fa-bolt"></i>
+        </div>
+        <h3 class="card-title">1.95× Latency Speedup</h3>
+        <p class="card-text">
+          Achieves a 1.95× latency reduction over prior work with negligible accuracy loss, offering a
+          practical path toward scalable and efficient secure AI inference.
+        </p>
+      </div>
+
+      <div class="contribution-card">
+        <div class="card-icon">
+          <i class="fas fa-layer-group"></i>
+        </div>
+        <h3 class="card-title">MPC-Optimized Model Pool</h3>
+        <p class="card-text">
+          Model architectures and quantization schemes are co-designed to minimize MPC communication
+          and computation overhead, enabling efficient encrypted inference at scale.
+        </p>
+      </div>
+
+      <div class="contribution-card">
+        <div class="card-icon">
+          <i class="fas fa-lock"></i>
+        </div>
+        <h3 class="card-title">Protocol-Aware Co-Design</h3>
+        <p class="card-text">
+          Deep integration of routing decisions with MPC protocol execution ensures that efficiency gains
+          are realized end-to-end in the cryptographic setting.
+        </p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ======== INTERACTIVE DEMO ======== -->
+<section class="content-section" id="demo">
+  <div class="container narrow">
+    <h2 class="section-title">Interactive Demo</h2>
+    <div class="section-underline"></div>
+    <div class="demo-card">
+      <div class="demo-icon-wrap">
+        <i class="fas fa-flask"></i>
+      </div>
+      <h3 class="demo-title">Try SecureRouter</h3>
+      <p class="demo-text">
+        An interactive demo showcasing encrypted routing and inference will be available soon.
+        Stay tuned for a Colab notebook and a live web interface.
+      </p>
+      <div class="demo-buttons">
+        <a href="#" class="demo-btn btn-colab disabled" title="Coming Soon" id="btn-colab">
+          <img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab" style="height:28px;" />
+        </a>
+        <span class="coming-soon-tag">🚧 Coming Soon</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ======== DOCUMENTATION ======== -->
+<section class="content-section alt-bg" id="docs">
+  <div class="container narrow">
+    <h2 class="section-title">Documentation</h2>
+    <div class="section-underline"></div>
+    <div class="docs-grid">
+      <a href="https://github.com/wocaishiniliu/secureRouterDemo/blob/main/README.md" target="_blank" class="docs-card" id="link-docs-readme">
+        <div class="docs-card-icon"><i class="fab fa-github"></i></div>
+        <div class="docs-card-body">
+          <div class="docs-card-title">README</div>
+          <div class="docs-card-desc">Quick start, installation, and usage guide.</div>
+        </div>
+        <i class="fas fa-arrow-right docs-arrow"></i>
+      </a>
+      <a href="#" class="docs-card disabled" title="Coming Soon" id="link-docs-full">
+        <div class="docs-card-icon"><i class="fas fa-book"></i></div>
+        <div class="docs-card-body">
+          <div class="docs-card-title">Full Documentation</div>
+          <div class="docs-card-desc">API reference and detailed guides. <span class="coming-soon-tag">🚧 Coming Soon</span></div>
+        </div>
+        <i class="fas fa-arrow-right docs-arrow"></i>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ======== CITATION ======== -->
+<section class="content-section" id="citation">
+  <div class="container narrow">
+    <h2 class="section-title">Citation</h2>
+    <div class="section-underline"></div>
+    <p class="citation-intro">
+      If you find SecureRouter useful in your research, please cite our paper:
+    </p>
+
+    <div class="bibtex-block">
+      <div class="bibtex-header">
+        <span class="bibtex-label">BibTeX</span>
+        <button class="copy-btn" id="copy-bibtex-btn" onclick="copyBibtex()">
+          <i class="fas fa-copy"></i> Copy
+        </button>
+      </div>
+      <pre class="bibtex-code" id="bibtex-code">@inproceedings{zhang2026securerouter,
+  title     = {SecureRouter: Input-Adaptive Encrypted Routing for Efficient
+               and Accurate MPC-Based Transformer Inference},
+  author    = {Zhang, Yukuan and Zheng, Mengxin and Lou, Qian},
+  booktitle = {Proceedings of the 63rd ACM/IEEE Design Automation Conference (DAC)},
+  year      = {2026}
+}</pre>
+    </div>
+  </div>
+</section>
+
+<!-- ======== FOOTER ======== -->
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-inner">
+      <p class="footer-text">
+        Website template adapted from
+        <a href="https://nerfies.github.io" target="_blank">Nerfies</a>
+        under the
+        <a href="http://creativecommons.org/licenses/by-sa/4.0/" target="_blank">CC BY-SA 4.0</a> license.
+      </p>
+      <p class="footer-text">
+        © 2026 Yukuan Zhang, Mengxin Zheng, Qian Lou &nbsp;·&nbsp; University of Central Florida
+      </p>
+    </div>
+  </div>
+</footer>
+
+<script src="static/js/index.js"></script>
+</body>
+</html>
