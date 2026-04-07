@@ -38,7 +38,8 @@
     <div class="navbar-end">
       <a class="navbar-item" href="#abstract">Abstract</a>
       <a class="navbar-item" href="#contributions">Contributions</a>
-      <a class="navbar-item" href="#demo">Demo</a>
+      <a class="navbar-item" href="#pipeline">Pipeline</a>
+      <a class="navbar-item" href="#demo">Tutorial</a>
       <a class="navbar-item" href="#docs">Docs</a>
       <a class="navbar-item" href="#citation">Citation</a>
     </div>
@@ -205,6 +206,382 @@
 
     </div>
   </div>
+</section>
+
+<!-- ======== LIVE PIPELINE ANIMATION ======== -->
+<section class="content-section alt-bg" id="pipeline">
+  <style>
+    #pipeline .pipeline-wrap{max-width:980px;margin:0 auto}
+    #pipeline .pipeline-intro{text-align:center;color:#4b5563;margin:12px auto 24px;max-width:720px;line-height:1.6}
+    #pipeline .pipeline-controls{display:flex;justify-content:center;align-items:center;gap:18px;margin-bottom:18px;flex-wrap:wrap}
+    #pipeline .variant-tabs{display:inline-flex;background:#eef2ff;border-radius:999px;padding:4px}
+    #pipeline .variant-tabs .tab{border:none;background:transparent;color:#4338ca;padding:8px 20px;font-weight:600;font-size:14px;border-radius:999px;cursor:pointer;transition:all .2s}
+    #pipeline .variant-tabs .tab.active{background:#4338ca;color:#fff;box-shadow:0 2px 8px rgba(67,56,202,.35)}
+    #pipeline .replay-btn{border:1px solid #cbd5e1;background:#fff;color:#334155;padding:8px 18px;font-weight:600;font-size:14px;border-radius:999px;cursor:pointer;display:inline-flex;align-items:center;gap:8px;transition:all .2s}
+    #pipeline .replay-btn:hover{background:#f1f5f9;border-color:#94a3b8}
+    #pipeline .stage{background:linear-gradient(180deg,#f8fafc 0%,#eef2ff 100%);border:1px solid #e2e8f0;border-radius:18px;padding:24px;box-shadow:0 10px 40px rgba(15,23,42,.06)}
+    #pipeline svg{width:100%;height:auto;display:block;font-family:'Inter',sans-serif}
+    #pipeline .node-box{fill:#fff;stroke:#cbd5e1;stroke-width:2;transition:all .35s ease}
+    #pipeline .node-box.active{stroke:#8b5cf6;stroke-width:3;filter:drop-shadow(0 4px 14px rgba(139,92,246,.35))}
+    #pipeline .node-box.result-active{stroke:#10b981;stroke-width:3;filter:drop-shadow(0 4px 14px rgba(16,185,129,.35))}
+    #pipeline .node-title{font-size:14px;font-weight:700;fill:#0f172a}
+    #pipeline .node-sub{font-size:11px;fill:#64748b}
+    #pipeline .edge{fill:none;stroke:#cbd5e1;stroke-width:3;stroke-linecap:round;transition:all .4s ease}
+    #pipeline .edge.active{stroke:#8b5cf6;stroke-width:4;stroke-dasharray:6 6;animation:march 1s linear infinite}
+    #pipeline .edge.chosen{stroke:#fbbf24;stroke-width:4}
+    #pipeline .edge.dimmed{stroke:#e2e8f0;opacity:.4}
+    @keyframes march{to{stroke-dashoffset:-24}}
+    #pipeline .packet{transition:transform 1s cubic-bezier(.65,0,.35,1),fill .35s,opacity .3s}
+    #pipeline .packet-icon{pointer-events:none;transition:transform 1s cubic-bezier(.65,0,.35,1),opacity .3s}
+    #pipeline .score-bar-bg{fill:#e2e8f0}
+    #pipeline .score-bar-fg{transition:width .6s cubic-bezier(.65,0,.35,1),fill .35s}
+    #pipeline .score-label{font-size:11px;font-weight:600;fill:#475569}
+    #pipeline .score-value{font-size:11px;font-weight:700;fill:#0f172a}
+    #pipeline .expert-box{fill:#fff;stroke:#cbd5e1;stroke-width:2;transition:all .35s}
+    #pipeline .expert-box.chosen{stroke:#fbbf24;stroke-width:3;filter:drop-shadow(0 4px 14px rgba(251,191,36,.4))}
+    #pipeline .expert-box.dimmed{opacity:.4}
+    #pipeline .expert-label{font-size:12px;font-weight:700;fill:#0f172a}
+    #pipeline .expert-cost{font-size:10px;fill:#64748b}
+    #pipeline .result-label{font-size:14px;font-weight:700;fill:#10b981;opacity:0;transition:opacity .4s}
+    #pipeline .result-label.show{opacity:1}
+    #pipeline .hud{fill:#1e293b}
+    #pipeline .hud-text{font-size:11px;font-weight:600;fill:#fff;font-family:'JetBrains Mono',monospace}
+    #pipeline .input-text{font-size:11px;fill:#475569;font-family:'JetBrains Mono',monospace;transition:fill .4s}
+    #pipeline .input-text.encrypted{fill:#8b5cf6;letter-spacing:1px}
+    #pipeline .caption{text-align:center;margin-top:18px;color:#475569;font-size:14px;font-style:italic;min-height:22px}
+    #pipeline .caption strong{color:#4338ca;font-style:normal}
+    #pipeline .flash-block{transition:all .2s}
+  </style>
+
+  <div class="container narrow">
+    <h2 class="section-title">Live Pipeline</h2>
+    <div class="section-underline"></div>
+    <div class="pipeline-wrap">
+      <p class="pipeline-intro">
+        Watch a single query flow through SecureRoute — encrypted on the client, scored by the
+        router, dispatched to the cheapest sufficient expert, and decrypted back on the client.
+        Toggle <strong>Easy</strong> and <strong>Hard</strong> to see cost-aware routing in action.
+      </p>
+
+      <div class="pipeline-controls">
+        <div class="variant-tabs" role="tablist">
+          <button class="tab active" data-variant="hard" type="button">Hard input</button>
+          <button class="tab" data-variant="easy" type="button">Easy input</button>
+        </div>
+        <button class="replay-btn" id="pipelineReplay" type="button">
+          <i class="fas fa-redo"></i> Replay
+        </button>
+      </div>
+
+      <div class="stage">
+        <svg viewBox="0 0 960 440" xmlns="http://www.w3.org/2000/svg" aria-label="SecureRoute live pipeline animation">
+          <!-- Edges -->
+          <path id="edge-cr"   class="edge" d="M 180 220 L 280 220" />
+          <path id="edge-rt"   class="edge" d="M 440 220 C 500 220, 520 115, 580 115" />
+          <path id="edge-rb"   class="edge" d="M 440 220 L 580 220" />
+          <path id="edge-rl"   class="edge" d="M 440 220 C 500 220, 520 325, 580 325" />
+          <path id="edge-tr"   class="edge" d="M 760 115 C 820 115, 760 220, 820 220" />
+          <path id="edge-br"   class="edge" d="M 760 220 L 820 220" />
+          <path id="edge-lr"   class="edge" d="M 760 325 C 820 325, 760 220, 820 220" />
+
+          <!-- Client node -->
+          <g id="node-client">
+            <rect class="node-box" x="40" y="160" width="140" height="120" rx="14" />
+            <text class="node-title" x="110" y="188" text-anchor="middle">
+              <tspan>👤 Client</tspan>
+            </text>
+            <text class="node-sub" x="110" y="206" text-anchor="middle">Encrypt / Decrypt</text>
+            <text id="input-text" class="input-text" x="110" y="236" text-anchor="middle">
+              <tspan id="input-line1">The committee voted</tspan>
+            </text>
+            <text class="input-text" x="110" y="252" text-anchor="middle">
+              <tspan id="input-line2">to delay the merger…</tspan>
+            </text>
+            <text id="lock-icon" x="110" y="272" text-anchor="middle" font-size="16">🔒</text>
+          </g>
+
+          <!-- Router node -->
+          <g id="node-router">
+            <rect class="node-box" x="280" y="160" width="160" height="120" rx="14" />
+            <text class="node-title" x="360" y="188" text-anchor="middle">🧭 Router</text>
+            <text class="node-sub" x="360" y="206" text-anchor="middle">RouterStem + MLP</text>
+
+            <!-- Score bars -->
+            <g id="score-bars" transform="translate(300,220)">
+              <g transform="translate(0,0)">
+                <text class="score-label" x="0" y="9">tiny</text>
+                <rect class="score-bar-bg" x="34" y="0" width="80" height="10" rx="5" />
+                <rect id="bar-tiny" class="score-bar-fg" x="34" y="0" width="0" height="10" rx="5" fill="#a5d8f3" />
+                <text id="val-tiny" class="score-value" x="120" y="9">0%</text>
+              </g>
+              <g transform="translate(0,16)">
+                <text class="score-label" x="0" y="9">base</text>
+                <rect class="score-bar-bg" x="34" y="0" width="80" height="10" rx="5" />
+                <rect id="bar-base" class="score-bar-fg" x="34" y="0" width="0" height="10" rx="5" fill="#5b8def" />
+                <text id="val-base" class="score-value" x="120" y="9">0%</text>
+              </g>
+              <g transform="translate(0,32)">
+                <text class="score-label" x="0" y="9">large</text>
+                <rect class="score-bar-bg" x="34" y="0" width="80" height="10" rx="5" />
+                <rect id="bar-large" class="score-bar-fg" x="34" y="0" width="0" height="10" rx="5" fill="#2d4a8a" />
+                <text id="val-large" class="score-value" x="120" y="9">0%</text>
+              </g>
+            </g>
+          </g>
+
+          <!-- Expert pool -->
+          <g id="pool">
+            <text class="node-sub" x="670" y="72" text-anchor="middle" font-weight="700" fill="#334155">Expert Pool</text>
+            <g id="expert-tiny">
+              <rect class="expert-box" x="580" y="85" width="180" height="60" rx="12" />
+              <text class="expert-label" x="670" y="112" text-anchor="middle" fill="#1e40af">BERT-tiny</text>
+              <text class="expert-cost" x="670" y="128" text-anchor="middle">2 layers · cost 2</text>
+            </g>
+            <g id="expert-base">
+              <rect class="expert-box" x="580" y="190" width="180" height="60" rx="12" />
+              <text class="expert-label" x="670" y="217" text-anchor="middle" fill="#1e3a8a">BERT-base</text>
+              <text class="expert-cost" x="670" y="233" text-anchor="middle">12 layers · cost 12</text>
+            </g>
+            <g id="expert-large">
+              <rect class="expert-box" x="580" y="295" width="180" height="60" rx="12" />
+              <text class="expert-label" x="670" y="322" text-anchor="middle" fill="#0f172a">BERT-large</text>
+              <text class="expert-cost" x="670" y="338" text-anchor="middle">24 layers · cost 13</text>
+            </g>
+          </g>
+
+          <!-- Result node -->
+          <g id="node-result">
+            <rect class="node-box" x="820" y="160" width="120" height="120" rx="14" />
+            <text class="node-title" x="880" y="188" text-anchor="middle">🏷 Result</text>
+            <text class="node-sub" x="880" y="206" text-anchor="middle">Decrypted</text>
+            <text id="result-label" class="result-label" x="880" y="240" text-anchor="middle">—</text>
+            <text id="result-conf" class="node-sub" x="880" y="258" text-anchor="middle" style="opacity:0;transition:opacity .4s">—</text>
+          </g>
+
+          <!-- Packet (moves along path) -->
+          <g id="packet-group" style="opacity:0">
+            <circle id="packet" class="packet" cx="180" cy="220" r="12" fill="#8b5cf6" />
+            <text id="packet-icon" class="packet-icon" x="180" y="225" text-anchor="middle" font-size="13" fill="#fff">🔒</text>
+          </g>
+
+          <!-- HUD -->
+          <g class="hud-group">
+            <rect class="hud" x="700" y="10" width="250" height="44" rx="10" />
+            <text class="hud-text" x="714" y="30">Query cost: <tspan id="hud-cost">0</tspan></text>
+            <text class="hud-text" x="714" y="46">Avg cost: <tspan id="hud-avg">0.0</tspan> / max 13 (always-large)</text>
+          </g>
+        </svg>
+      </div>
+
+      <div class="caption" id="pipeline-caption">
+        <strong>Hard input</strong> · Ambiguous paraphrase routes to BERT-large for accuracy.
+      </div>
+    </div>
+  </div>
+
+  <script>
+  (function(){
+    const variants = {
+      hard: {
+        line1: 'The committee voted',
+        line2: 'to delay the merger…',
+        scores: {tiny:12, base:23, large:65},
+        chosen: 'large',
+        label: 'Paraphrase ✓',
+        conf: '94%',
+        cost: 13,
+        caption: '<strong>Hard input</strong> · Ambiguous paraphrase routes to BERT-large for accuracy.'
+      },
+      easy: {
+        line1: 'This movie is',
+        line2: 'amazing!',
+        scores: {tiny:78, base:15, large:7},
+        chosen: 'tiny',
+        label: 'Positive ✓',
+        conf: '97%',
+        cost: 2,
+        caption: '<strong>Easy input</strong> · Simple sentiment routes to BERT-tiny — saves 85% compute.'
+      }
+    };
+
+    const $ = id => document.getElementById(id);
+    let timers = [];
+    let queries = 0, totalCost = 0;
+    let current = 'hard';
+
+    function clearTimers(){ timers.forEach(clearTimeout); timers = []; }
+
+    function resetVisuals(){
+      ['node-client','node-router','node-result'].forEach(id => {
+        const box = document.querySelector('#'+id+' .node-box');
+        box.classList.remove('active','result-active');
+      });
+      ['edge-cr','edge-rt','edge-rb','edge-rl','edge-tr','edge-br','edge-lr'].forEach(id => {
+        const e = $(id); e.classList.remove('active','chosen','dimmed');
+      });
+      ['expert-tiny','expert-base','expert-large'].forEach(id => {
+        document.querySelector('#'+id+' .expert-box').classList.remove('chosen','dimmed');
+      });
+      ['tiny','base','large'].forEach(k => {
+        $('bar-'+k).setAttribute('width','0');
+        $('val-'+k).textContent = '0%';
+        $('bar-'+k).setAttribute('fill', k==='tiny'?'#a5d8f3':k==='base'?'#5b8def':'#2d4a8a');
+      });
+      $('result-label').classList.remove('show');
+      $('result-label').textContent = '—';
+      $('result-conf').style.opacity = '0';
+      $('input-text').classList.remove('encrypted');
+      $('lock-icon').textContent = '🔒';
+      $('packet-group').style.opacity = '0';
+      movePacket(180,220,false);
+    }
+
+    function movePacket(x,y,animate){
+      const p = $('packet'); const i = $('packet-icon');
+      if(!animate){
+        p.style.transition = 'none'; i.style.transition = 'none';
+        requestAnimationFrame(()=>{
+          p.style.transition=''; i.style.transition='';
+        });
+      }
+      p.setAttribute('cx', x); p.setAttribute('cy', y);
+      i.setAttribute('x', x); i.setAttribute('y', y+5);
+    }
+
+    const expertPos = {
+      tiny:  {in:[580,115], out:[760,115], edgeIn:'edge-rt', edgeOut:'edge-tr'},
+      base:  {in:[580,220], out:[760,220], edgeIn:'edge-rb', edgeOut:'edge-br'},
+      large: {in:[580,325], out:[760,325], edgeIn:'edge-rl', edgeOut:'edge-lr'}
+    };
+
+    function play(variantKey){
+      clearTimers();
+      resetVisuals();
+      const v = variants[variantKey];
+      $('input-line1').textContent = v.line1;
+      $('input-line2').textContent = v.line2;
+      $('pipeline-caption').innerHTML = v.caption;
+
+      // F0: show text (already shown by reset)
+      // F2 (1.0s): encrypt
+      timers.push(setTimeout(()=>{
+        $('input-text').classList.add('encrypted');
+        $('input-line1').textContent = '▓▓▓▓ ▓▓▓▓▓';
+        $('input-line2').textContent = '▓▓ ▓▓▓ ▓▓▓▓▓';
+        document.querySelector('#node-client .node-box').classList.add('active');
+        $('packet-group').style.opacity = '1';
+        movePacket(180,220,false);
+      }, 1000));
+
+      // F3 (1.3s): packet slides client → router
+      timers.push(setTimeout(()=>{
+        $('edge-cr').classList.add('active');
+        movePacket(280,220,true);
+      }, 1300));
+
+      // F4 (2.0s): router stem activates
+      timers.push(setTimeout(()=>{
+        document.querySelector('#node-router .node-box').classList.add('active');
+      }, 2000));
+
+      // F5 (2.3s): score bars grow
+      timers.push(setTimeout(()=>{
+        ['tiny','base','large'].forEach(k => {
+          const pct = v.scores[k];
+          $('bar-'+k).setAttribute('width', (pct*0.8).toFixed(1));
+          $('val-'+k).textContent = pct+'%';
+        });
+      }, 2300));
+
+      // F6 (2.9s): argmax highlight
+      timers.push(setTimeout(()=>{
+        const chosen = v.chosen;
+        $('bar-'+chosen).setAttribute('fill', '#fbbf24');
+        ['tiny','base','large'].forEach(k => {
+          const expertBox = document.querySelector('#expert-'+k+' .expert-box');
+          if(k===chosen) expertBox.classList.add('chosen');
+          else expertBox.classList.add('dimmed');
+        });
+        // dim non-chosen edges
+        ['rt','rb','rl'].forEach(suf => {
+          const key = suf==='rt'?'tiny':suf==='rb'?'base':'large';
+          if(key!==chosen) $('edge-'+suf).classList.add('dimmed');
+        });
+        const ep = expertPos[chosen];
+        $(ep.edgeIn).classList.add('chosen');
+      }, 2900));
+
+      // F7 (3.2s): packet slides router → chosen expert
+      timers.push(setTimeout(()=>{
+        const ep = expertPos[v.chosen];
+        movePacket(ep.in[0]+90, ep.in[1]+30, true);
+      }, 3200));
+
+      // F8 (3.9s): expert computes (flash)
+      timers.push(setTimeout(()=>{
+        const box = document.querySelector('#expert-'+v.chosen+' .expert-box');
+        let n=0;
+        const id = setInterval(()=>{
+          box.style.filter = n%2 ? 'drop-shadow(0 0 16px rgba(251,191,36,.9))' : 'drop-shadow(0 4px 14px rgba(251,191,36,.4))';
+          n++; if(n>=6){ clearInterval(id); box.style.filter=''; }
+        }, 100);
+      }, 3900));
+
+      // F9 (4.5s): packet slides expert → result
+      timers.push(setTimeout(()=>{
+        const ep = expertPos[v.chosen];
+        $(ep.edgeOut).classList.add('chosen');
+        movePacket(820, 220, true);
+      }, 4500));
+
+      // F10 (4.9s): decrypt
+      timers.push(setTimeout(()=>{
+        $('packet').setAttribute('fill', '#10b981');
+        $('packet-icon').textContent = '🔓';
+        $('lock-icon').textContent = '🔓';
+        document.querySelector('#node-result .node-box').classList.add('result-active');
+      }, 4900));
+
+      // F11 (5.1s): show label
+      timers.push(setTimeout(()=>{
+        $('result-label').textContent = v.label;
+        $('result-label').classList.add('show');
+        $('result-conf').textContent = 'conf ' + v.conf;
+        $('result-conf').style.opacity = '1';
+        $('packet-group').style.opacity = '0';
+      }, 5100));
+
+      // F12 (5.6s): HUD update
+      timers.push(setTimeout(()=>{
+        queries++; totalCost += v.cost;
+        $('hud-cost').textContent = v.cost;
+        $('hud-avg').textContent = (totalCost/queries).toFixed(1);
+      }, 5600));
+    }
+
+    // Controls
+    document.querySelectorAll('#pipeline .variant-tabs .tab').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('#pipeline .variant-tabs .tab').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        current = btn.dataset.variant;
+        play(current);
+      });
+    });
+    $('pipelineReplay').addEventListener('click', () => play(current));
+
+    // Autoplay on first scroll into view
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if(e.isIntersecting){
+          play(current);
+          io.disconnect();
+        }
+      });
+    }, {threshold: 0.3});
+    io.observe(document.getElementById('pipeline'));
+  })();
+  </script>
 </section>
 
 <!-- ======== INTERACTIVE DEMO ======== -->
