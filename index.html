@@ -163,10 +163,10 @@
     <div class="section-underline"></div>
     <div class="pipeline-wrap">
       <p class="pipeline-intro">
-        Watch a single query flow through SecureRoute — split into <strong>secret shares</strong> on
-        the client, scored by the router, dispatched to the cheapest sufficient expert, and
-        reconstructed back on the client. Toggle <strong>Easy</strong> and <strong>Hard</strong> to
-        see cost-aware routing in action.
+        A single <strong>sentiment classification</strong> query flows through SecureRoute: the
+        sentence is split into <strong>secret shares</strong> on the client, scored by the secure
+        router, dispatched to the cheapest sufficient model, and reconstructed back on the client.
+        Toggle <strong>Easy</strong> and <strong>Hard</strong> to see cost-aware routing in action.
       </p>
 
       <div class="pipeline-controls">
@@ -305,7 +305,7 @@
       </div>
 
       <div class="caption" id="pipeline-caption">
-        <strong>Hard input</strong> · Complex sentence routes to the large model for accuracy.
+        <strong>Hard sentiment</strong> · Mixed/subtle wording routes to the large model for accuracy.
       </div>
     </div>
   </div>
@@ -314,16 +314,16 @@
   (function(){
     const variants = {
       hard: {
-        plaintext: 'The committee voted…',
+        plaintext: 'Not bad, but overhyped.',
         mask:      '7b1e 4c8d 9f02 c31a',
         s1:        'a3f2 7b1e 4c8d 5e91',
         s2:        '7b1e 4c8d 9f02 c31a',
         scores: {tiny:12, base:23, large:65},
         chosen: 'large',
-        label: 'Similar ✓',
-        conf: '94%',
+        label: 'Negative ✓',
+        conf: '91%',
         cost: 24,
-        caption: '<strong>Hard input</strong> · Complex sentence → routes to the large model for accuracy.',
+        caption: '<strong>Hard sentiment</strong> · Mixed/subtle wording → routes to the large model for accuracy.',
         t: {
           r1:400, r2:1600, r3:2800, r4:3800, r5:4800,
           clientActive:400,
@@ -343,7 +343,7 @@
         label: 'Positive ✓',
         conf: '97%',
         cost: 2,
-        caption: '<strong>Easy input</strong> · Simple sentiment → routes to the tiny model, saves 92% compute.',
+        caption: '<strong>Easy sentiment</strong> · Obviously positive → routes to the tiny model, saves 92% compute.',
         t: {
           r1:250, r2:1100, r3:1950, r4:2700, r5:3500,
           clientActive:250,
