@@ -233,7 +233,7 @@
             <rect class="node-box" x="280" y="140" width="210" height="180" rx="16" />
             <text class="node-title" x="385" y="168" text-anchor="middle">🧭 Router</text>
 
-            <g id="score-bars" transform="translate(304,190)">
+            <g id="score-bars" transform="translate(320,182)">
               <g transform="translate(0,0)">
                 <text class="score-label" x="0" y="11">tiny</text>
                 <rect class="score-bar-bg" x="42" y="0" width="110" height="14" rx="7" />
@@ -323,12 +323,12 @@
         cost: 24,
         caption: '<strong>Hard input</strong> · Ambiguous paraphrase → routes to BERT-large for accuracy.',
         t: {
-          r1:400, r2:1100, r3:1800, r4:2300, r5:2800,
+          r1:400, r2:1600, r3:2800, r4:3800, r5:4800,
           clientActive:400,
-          packetStart:3200, arriveRouter:3900,
-          scores:4300, argmax:5100,
-          packetToExpert:5700, expertCompute:6400, expertFlashes:8,
-          packetToResult:7700, decrypt:8100, label:8300, hud:8600
+          packetStart:5700, arriveRouter:6900,
+          scores:7800, argmax:9100,
+          packetToExpert:10200, expertCompute:11400, expertFlashes:8,
+          packetToResult:13200, decrypt:14100, label:14800, hud:15600
         }
       },
       easy: {
@@ -343,12 +343,12 @@
         cost: 2,
         caption: '<strong>Easy input</strong> · Simple sentiment → routes to BERT-tiny, saves 92% compute.',
         t: {
-          r1:250, r2:600, r3:950, r4:1200, r5:1500,
+          r1:250, r2:1100, r3:1950, r4:2700, r5:3500,
           clientActive:250,
-          packetStart:1800, arriveRouter:2250,
-          scores:2400, argmax:2900,
-          packetToExpert:3200, expertCompute:3500, expertFlashes:3,
-          packetToResult:3900, decrypt:4150, label:4300, hud:4500
+          packetStart:4300, arriveRouter:5250,
+          scores:5900, argmax:6900,
+          packetToExpert:7700, expertCompute:8500, expertFlashes:3,
+          packetToResult:9400, decrypt:10150, label:10800, hud:11500
         }
       }
     };
