@@ -232,7 +232,7 @@
           <!-- Router node (bigger, no sub) -->
           <g id="node-router">
             <rect class="node-box" x="280" y="140" width="210" height="180" rx="16" />
-            <text class="node-title" x="385" y="168" text-anchor="middle">🧭 Router</text>
+            <text class="node-title" x="385" y="168" text-anchor="middle">🧭 Secure Router</text>
 
             <g id="score-bars" transform="translate(320,182)">
               <g transform="translate(0,0)">
@@ -259,20 +259,20 @@
 
           <!-- Expert pool -->
           <g id="pool">
-            <text class="node-sub" x="670" y="78" text-anchor="middle" font-weight="700" fill="#334155">Expert Pool</text>
+            <text class="node-sub" x="670" y="78" text-anchor="middle" font-weight="700" fill="#334155">MPC-Optimized Model Pool</text>
             <g id="expert-tiny">
               <rect class="expert-box" x="580" y="90" width="180" height="60" rx="12" />
-              <text class="expert-label" x="670" y="117" text-anchor="middle" fill="#1e40af">BERT-tiny</text>
+              <text class="expert-label" x="670" y="117" text-anchor="middle" fill="#1e40af">tiny</text>
               <text class="expert-cost" x="670" y="133" text-anchor="middle">2 layers · cost 2</text>
             </g>
             <g id="expert-base">
               <rect class="expert-box" x="580" y="200" width="180" height="60" rx="12" />
-              <text class="expert-label" x="670" y="227" text-anchor="middle" fill="#1e3a8a">BERT-base</text>
+              <text class="expert-label" x="670" y="227" text-anchor="middle" fill="#1e3a8a">base</text>
               <text class="expert-cost" x="670" y="243" text-anchor="middle">12 layers · cost 12</text>
             </g>
             <g id="expert-large">
               <rect class="expert-box" x="580" y="310" width="180" height="60" rx="12" />
-              <text class="expert-label" x="670" y="337" text-anchor="middle" fill="#0f172a">BERT-large</text>
+              <text class="expert-label" x="670" y="337" text-anchor="middle" fill="#0f172a">large</text>
               <text class="expert-cost" x="670" y="353" text-anchor="middle">24 layers · cost 24</text>
             </g>
           </g>
@@ -305,7 +305,7 @@
       </div>
 
       <div class="caption" id="pipeline-caption">
-        <strong>Hard input</strong> · Ambiguous paraphrase routes to BERT-large for accuracy.
+        <strong>Hard input</strong> · Ambiguous paraphrase routes to the large model for accuracy.
       </div>
     </div>
   </div>
@@ -323,7 +323,7 @@
         label: 'Paraphrase ✓',
         conf: '94%',
         cost: 24,
-        caption: '<strong>Hard input</strong> · Ambiguous paraphrase → routes to BERT-large for accuracy.',
+        caption: '<strong>Hard input</strong> · Ambiguous paraphrase → routes to the large model for accuracy.',
         t: {
           r1:400, r2:1600, r3:2800, r4:3800, r5:4800,
           clientActive:400,
@@ -343,7 +343,7 @@
         label: 'Positive ✓',
         conf: '97%',
         cost: 2,
-        caption: '<strong>Easy input</strong> · Simple sentiment → routes to BERT-tiny, saves 92% compute.',
+        caption: '<strong>Easy input</strong> · Simple sentiment → routes to the tiny model, saves 92% compute.',
         t: {
           r1:250, r2:1100, r3:1950, r4:2700, r5:3500,
           clientActive:250,
