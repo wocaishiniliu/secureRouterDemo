@@ -198,31 +198,32 @@
             <g id="client-row-1" class="client-row hidden">
               <text x="44" y="178" fill="#475569" font-weight="700">x =</text>
               <text x="70" y="178" fill="#1e293b" id="client-plaintext">The committee…</text>
+              <text x="44" y="190" fill="#94a3b8" font-style="italic" font-size="9">plaintext (embedded)</text>
             </g>
 
             <g id="client-row-2" class="client-row hidden">
-              <text x="44" y="206" fill="#64748b" font-weight="700">r =</text>
-              <text x="70" y="206" fill="#64748b" id="client-mask">7b1e 4c8d 9f02</text>
-              <text x="44" y="220" fill="#94a3b8" font-style="italic">(random mask)</text>
+              <text x="44" y="210" fill="#64748b" font-weight="700">r ←</text>
+              <text x="72" y="210" fill="#64748b" id="client-mask">$ {0,1}^k</text>
+              <text x="44" y="222" fill="#94a3b8" font-style="italic" font-size="9">uniform random mask</text>
             </g>
 
-            <line x1="44" y1="232" x2="226" y2="232" stroke="#cbd5e1" stroke-width="1" stroke-dasharray="3 3" />
+            <line x1="44" y1="234" x2="226" y2="234" stroke="#cbd5e1" stroke-width="1" stroke-dasharray="3 3" />
 
             <g id="client-row-3" class="client-row hidden">
-              <text x="44" y="252" fill="#8b5cf6" font-weight="700">S₁ =</text>
-              <text x="80" y="252" fill="#8b5cf6">x ⊕ r</text>
+              <text x="44" y="252" fill="#8b5cf6" font-weight="700">⟨x⟩₁ = x − r</text>
               <text x="44" y="266" fill="#8b5cf6" id="client-s1">a3f2 7b1e 4c8d</text>
+              <text x="44" y="276" fill="#c4b5fd" font-style="italic" font-size="9">→ Party P₁</text>
             </g>
 
             <g id="client-row-4" class="client-row hidden">
-              <text x="44" y="290" fill="#ec4899" font-weight="700">S₂ =</text>
-              <text x="80" y="290" fill="#ec4899">r</text>
-              <text x="44" y="304" fill="#ec4899" id="client-s2">7b1e 4c8d 9f02</text>
+              <text x="44" y="292" fill="#ec4899" font-weight="700">⟨x⟩₂ = r</text>
+              <text x="44" y="306" fill="#ec4899" id="client-s2">7b1e 4c8d 9f02</text>
+              <text x="44" y="316" fill="#f9a8d4" font-style="italic" font-size="9">→ Party P₂</text>
             </g>
 
             <g id="client-row-5" class="client-row hidden">
-              <text x="135" y="326" text-anchor="middle" fill="#64748b" font-style="italic">→ 2 MPC parties</text>
-              <text x="135" y="340" text-anchor="middle" fill="#94a3b8">(neither reveals x)</text>
+              <text x="135" y="332" text-anchor="middle" fill="#475569" font-weight="700" font-size="10">⟨x⟩₁ + ⟨x⟩₂ = x  (mod 2ᵏ)</text>
+              <text x="135" y="344" text-anchor="middle" fill="#94a3b8" font-style="italic" font-size="9">neither share alone reveals x</text>
             </g>
 
             <text id="lock-icon" x="135" y="366" text-anchor="middle" font-size="22">🔒</text>
@@ -236,21 +237,21 @@
             <g id="score-bars" transform="translate(320,182)">
               <g transform="translate(0,0)">
                 <text class="score-label" x="0" y="11">tiny</text>
-                <rect class="score-bar-bg" x="42" y="0" width="110" height="14" rx="7" />
+                <rect class="score-bar-bg" x="42" y="0" width="92" height="14" rx="7" />
                 <rect id="bar-tiny" class="score-bar-fg" x="42" y="0" width="0" height="14" rx="7" fill="#a5d8f3" />
-                <text id="val-tiny" class="score-value" x="158" y="11">0%</text>
+                <text id="val-tiny" class="score-value" x="140" y="11">0%</text>
               </g>
               <g transform="translate(0,26)">
                 <text class="score-label" x="0" y="11">base</text>
-                <rect class="score-bar-bg" x="42" y="0" width="110" height="14" rx="7" />
+                <rect class="score-bar-bg" x="42" y="0" width="92" height="14" rx="7" />
                 <rect id="bar-base" class="score-bar-fg" x="42" y="0" width="0" height="14" rx="7" fill="#5b8def" />
-                <text id="val-base" class="score-value" x="158" y="11">0%</text>
+                <text id="val-base" class="score-value" x="140" y="11">0%</text>
               </g>
               <g transform="translate(0,52)">
                 <text class="score-label" x="0" y="11">large</text>
-                <rect class="score-bar-bg" x="42" y="0" width="110" height="14" rx="7" />
+                <rect class="score-bar-bg" x="42" y="0" width="92" height="14" rx="7" />
                 <rect id="bar-large" class="score-bar-fg" x="42" y="0" width="0" height="14" rx="7" fill="#2d4a8a" />
-                <text id="val-large" class="score-value" x="158" y="11">0%</text>
+                <text id="val-large" class="score-value" x="140" y="11">0%</text>
               </g>
             </g>
             <text x="385" y="305" text-anchor="middle" font-size="11" fill="#94a3b8" font-style="italic">argmax → chosen expert</text>
@@ -461,7 +462,7 @@
       timers.push(setTimeout(()=>{
         ['tiny','base','large'].forEach(k => {
           const pct = v.scores[k];
-          $('bar-'+k).setAttribute('width', (pct*1.1).toFixed(1));
+          $('bar-'+k).setAttribute('width', (pct*0.92).toFixed(1));
           $('val-'+k).textContent = pct+'%';
         });
       }, t.scores));
