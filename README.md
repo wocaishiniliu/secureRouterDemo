@@ -12,6 +12,9 @@
 
 SecureRoute is an end-to-end encrypted routing and inference framework that accelerates secure transformer inference through input-adaptive model selection under encryption. It achieves a **1.95× latency reduction** over prior work with negligible accuracy loss.
 
+- **Paper**: https://arxiv.org/abs/2604.15499
+- **GitHub**: https://github.com/UCF-ML-Research/SecureRouter
+
 ---
 
 ## Website
